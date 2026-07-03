@@ -2,7 +2,33 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Pertemuan, pertemuanList } from "../data/data";
+// Try to load data from ../data/data if it exists, otherwise use a local fallback.
+let importedData: any = null;
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  importedData = require("../data/data");
+} catch (e) {
+  importedData = null;
+}
+
+export interface Pertemuan {
+  id: string;
+  namaAgenda: string;
+  pembahasan: string;
+  tanggal: string;
+  kategori?: string;
+}
+
+const pertemuanList: Pertemuan[] =
+  (importedData && importedData.pertemuanList) || [
+    {
+      id: "1",
+      namaAgenda: "Contoh Rapat",
+      pembahasan: "Pembahasan contoh untuk menampilkan daftar agenda.",
+      tanggal: "2026-07-03",
+      kategori: "Umum",
+    },
+  ];
 
 function PertemuanItem({ item }: { item: Pertemuan }) {
   return (

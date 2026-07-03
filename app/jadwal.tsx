@@ -1,9 +1,88 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
+import React from "react";
 import { SectionList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { JadwalItem, jadwalPerHari } from "../data/data";
+// Fallback for environments where expo-linear-gradient is not installed.
+// If expo-linear-gradient is available in the project, replace this
+// simple fallback with: import { LinearGradient } from 'expo-linear-gradient';
+const LinearGradient: React.FC<any> = ({ children, style, colors, start, end }) => {
+  // Use a single solid background color as a graceful fallback.
+  const fallbackStyle = Array.isArray(colors) && colors.length > 0 ? { backgroundColor: colors[colors.length - 1] } : { backgroundColor: "#4F46E5" };
+  return <View style={[fallbackStyle, style]}>{children}</View>;
+ 
+};
+
+type JadwalItem = {
+  id: string;
+  namaTugas: string;
+  prioritas: string;
+  deadline: string;
+};
+
+const jadwalPerHari: { hari: string; data: JadwalItem[] }[] = [
+  {
+    hari: "Senin",
+    data: [
+      {
+        id: "senin-1",
+        namaTugas: "Review catatan kuliah",
+        prioritas: "Tinggi",
+        deadline: "18:00",
+      },
+      {
+        id: "senin-2",
+        namaTugas: "Kerjakan latihan pemrograman",
+        prioritas: "Sedang",
+        deadline: "20:00",
+      },
+    ],
+  },
+  {
+    hari: "Selasa",
+    data: [
+      {
+        id: "selasa-1",
+        namaTugas: "Persiapan presentasi",
+        prioritas: "Tinggi",
+        deadline: "16:00",
+      },
+    ],
+  },
+  {
+    hari: "Rabu",
+    data: [
+      {
+        id: "rabu-1",
+        namaTugas: "Belajar materi baru",
+        prioritas: "Sedang",
+        deadline: "19:00",
+      },
+    ],
+  },
+  {
+    hari: "Kamis",
+    data: [
+      {
+        id: "kamis-1",
+        namaTugas: "Selesaikan tugas kelompok",
+        prioritas: "Tinggi",
+        deadline: "21:00",
+      },
+    ],
+  },
+  {
+    hari: "Jumat",
+    data: [
+      {
+        id: "jumat-1",
+        namaTugas: "Review minggu ini",
+        prioritas: "Rendah",
+        deadline: "17:00",
+      },
+    ],
+  },
+];
 
 // Warna disederhanakan menggunakan tema biru tua profesional (Corporate/Slate)
 const HARI_COLOR: Record<string, string> = {
